@@ -3,7 +3,7 @@
 (module (memory 0 0))
 (module (memory 0 1))
 (module (memory 1 256))
-(module (memory 0 65536))
+;; (module (memory 0 65536))
 
 (assert_invalid (module (memory 0) (memory 0)) "multiple memories")
 (assert_invalid (module (memory (import "spectest" "memory") 0) (memory 0)) "multiple memories")
@@ -104,20 +104,20 @@
     )
   )
 
-  ;; Memory cast
-  (func (export "cast") (result f64)
-    (i64.store (i32.const 8) (i64.const -12345))
-    (if
-      (f64.eq
-        (f64.load (i32.const 8))
-        (f64.reinterpret_i64 (i64.const -12345))
-      )
-      (then (return (f64.const 0)))
-    )
-    (i64.store align=1 (i32.const 9) (i64.const 0))
-    (i32.store16 align=1 (i32.const 15) (i32.const 16453))
-    (f64.load align=1 (i32.const 9))
-  )
+  ;; ;; Memory cast
+  ;; (func (export "cast") (result f64)
+  ;;   (i64.store (i32.const 8) (i64.const -12345))
+  ;;   (if
+  ;;     (f64.eq
+  ;;       (f64.load (i32.const 8))
+  ;;       (f64.reinterpret_i64 (i64.const -12345))
+  ;;     )
+  ;;     (then (return (f64.const 0)))
+  ;;   )
+  ;;   (i64.store align=1 (i32.const 9) (i64.const 0))
+  ;;   (i32.store16 align=1 (i32.const 15) (i32.const 16453))
+  ;;   (f64.load align=1 (i32.const 9))
+  ;; )
 
   ;; Sign and zero extending memory loads
   (func (export "i32_load8_s") (param $i i32) (result i32)
@@ -163,7 +163,7 @@
 )
 
 (assert_return (invoke "data") (i32.const 1))
-(assert_return (invoke "cast") (f64.const 42.0))
+;; (assert_return (invoke "cast") (f64.const 42.0))
 
 (assert_return (invoke "i32_load8_s" (i32.const -1)) (i32.const -1))
 (assert_return (invoke "i32_load8_u" (i32.const -1)) (i32.const 255))
