@@ -4,43 +4,43 @@
   ;; Auxiliary definitions
   (func $const-i32 (result i32) (i32.const 0x132))
   (func $const-i64 (result i64) (i64.const 0x164))
-  (func $const-f32 (result f32) (f32.const 0xf32))
-  (func $const-f64 (result f64) (f64.const 0xf64))
+  ;; (func $const-f32 (result f32) (f32.const 0xf32))
+  ;; (func $const-f64 (result f64) (f64.const 0xf64))
 
   (func $id-i32 (param i32) (result i32) (local.get 0))
   (func $id-i64 (param i64) (result i64) (local.get 0))
-  (func $id-f32 (param f32) (result f32) (local.get 0))
-  (func $id-f64 (param f64) (result f64) (local.get 0))
+  ;; (func $id-f32 (param f32) (result f32) (local.get 0))
+  ;; (func $id-f64 (param f64) (result f64) (local.get 0))
 
-  (func $f32-i32 (param f32 i32) (result i32) (local.get 1))
+  ;; (func $f32-i32 (param f32 i32) (result i32) (local.get 1))
   (func $i32-i64 (param i32 i64) (result i64) (local.get 1))
-  (func $f64-f32 (param f64 f32) (result f32) (local.get 1))
-  (func $i64-f64 (param i64 f64) (result f64) (local.get 1))
+  ;; (func $f64-f32 (param f64 f32) (result f32) (local.get 1))
+  ;; (func $i64-f64 (param i64 f64) (result f64) (local.get 1))
 
   ;; Typing
 
   (func (export "type-i32") (result i32) (call $const-i32))
   (func (export "type-i64") (result i64) (call $const-i64))
-  (func (export "type-f32") (result f32) (call $const-f32))
-  (func (export "type-f64") (result f64) (call $const-f64))
+  ;; (func (export "type-f32") (result f32) (call $const-f32))
+  ;; (func (export "type-f64") (result f64) (call $const-f64))
 
   (func (export "type-first-i32") (result i32) (call $id-i32 (i32.const 32)))
   (func (export "type-first-i64") (result i64) (call $id-i64 (i64.const 64)))
-  (func (export "type-first-f32") (result f32) (call $id-f32 (f32.const 1.32)))
-  (func (export "type-first-f64") (result f64) (call $id-f64 (f64.const 1.64)))
+  ;; (func (export "type-first-f32") (result f32) (call $id-f32 (f32.const 1.32)))
+  ;; (func (export "type-first-f64") (result f64) (call $id-f64 (f64.const 1.64)))
 
-  (func (export "type-second-i32") (result i32)
-    (call $f32-i32 (f32.const 32.1) (i32.const 32))
-  )
+  ;; (func (export "type-second-i32") (result i32)
+  ;;   (call $f32-i32 (f32.const 32.1) (i32.const 32))
+  ;; )
   (func (export "type-second-i64") (result i64)
     (call $i32-i64 (i32.const 32) (i64.const 64))
   )
-  (func (export "type-second-f32") (result f32)
-    (call $f64-f32 (f64.const 64) (f32.const 32))
-  )
-  (func (export "type-second-f64") (result f64)
-    (call $i64-f64 (i64.const 64) (f64.const 64.1))
-  )
+  ;; (func (export "type-second-f32") (result f32)
+  ;;   (call $f64-f32 (f64.const 64) (f32.const 32))
+  ;; )
+  ;; (func (export "type-second-f64") (result f64)
+  ;;   (call $i64-f64 (i64.const 64) (f64.const 64.1))
+  ;; )
 
   ;; Recursion
 
@@ -199,10 +199,10 @@
   )
 
   (func $dummy (param i32) (result i32) (local.get 0))
-  (func $du (param f32) (result f32) (local.get 0))
-  (func (export "as-unary-operand") (result f32)
-    (block (result f32) (f32.sqrt (call $du (f32.const 0x0p+0))))
-  )
+  ;; (func $du (param f32) (result f32) (local.get 0))
+  ;; (func (export "as-unary-operand") (result f32)
+  ;;   (block (result f32) (f32.sqrt (call $du (f32.const 0x0p+0))))
+  ;; )
 
   (func (export "as-binary-left") (result i32)
     (block (result i32) (i32.add (call $dummy (i32.const 1)) (i32.const 10)))
@@ -229,18 +229,18 @@
 
 (assert_return (invoke "type-i32") (i32.const 0x132))
 (assert_return (invoke "type-i64") (i64.const 0x164))
-(assert_return (invoke "type-f32") (f32.const 0xf32))
-(assert_return (invoke "type-f64") (f64.const 0xf64))
+;; (assert_return (invoke "type-f32") (f32.const 0xf32))
+;; (assert_return (invoke "type-f64") (f64.const 0xf64))
 
 (assert_return (invoke "type-first-i32") (i32.const 32))
 (assert_return (invoke "type-first-i64") (i64.const 64))
-(assert_return (invoke "type-first-f32") (f32.const 1.32))
-(assert_return (invoke "type-first-f64") (f64.const 1.64))
+;; (assert_return (invoke "type-first-f32") (f32.const 1.32))
+;; (assert_return (invoke "type-first-f64") (f64.const 1.64))
 
-(assert_return (invoke "type-second-i32") (i32.const 32))
+;; (assert_return (invoke "type-second-i32") (i32.const 32))
 (assert_return (invoke "type-second-i64") (i64.const 64))
-(assert_return (invoke "type-second-f32") (f32.const 32))
-(assert_return (invoke "type-second-f64") (f64.const 64.1))
+;; (assert_return (invoke "type-second-f32") (f32.const 32))
+;; (assert_return (invoke "type-second-f64") (f64.const 64.1))
 
 (assert_return (invoke "fac" (i64.const 0)) (i64.const 1))
 (assert_return (invoke "fac" (i64.const 1)) (i64.const 1))
@@ -300,7 +300,7 @@
 (assert_return (invoke "as-global.set-value") (i32.const 0x132))
 (assert_return (invoke "as-load-operand") (i32.const 1))
 
-(assert_return (invoke "as-unary-operand") (f32.const 0x0p+0))
+;; (assert_return (invoke "as-unary-operand") (f32.const 0x0p+0))
 (assert_return (invoke "as-binary-left") (i32.const 11))
 (assert_return (invoke "as-binary-right") (i32.const 9))
 (assert_return (invoke "as-test-operand") (i32.const 0))
@@ -332,13 +332,13 @@
   )
   "type mismatch"
 )
-(assert_invalid
-  (module
-    (func $arity-0-vs-2 (call 1))
-    (func (param f64 i32))
-  )
-  "type mismatch"
-)
+;; (assert_invalid
+;;   (module
+;;     (func $arity-0-vs-2 (call 1))
+;;     (func (param f64 i32))
+;;   )
+;;   "type mismatch"
+;; )
 (assert_invalid
   (module
     (func $arity-1-vs-0 (call 1 (i32.const 1)))
@@ -346,13 +346,13 @@
   )
   "type mismatch"
 )
-(assert_invalid
-  (module
-    (func $arity-2-vs-0 (call 1 (f64.const 2) (i32.const 1)))
-    (func)
-  )
-  "type mismatch"
-)
+;; (assert_invalid
+;;   (module
+;;     (func $arity-2-vs-0 (call 1 (f64.const 2) (i32.const 1)))
+;;     (func)
+;;   )
+;;   "type mismatch"
+;; )
 
 (assert_invalid
   (module
@@ -368,20 +368,20 @@
   )
   "type mismatch"
 )
-(assert_invalid
-  (module
-    (func $type-first-num-vs-num (call 1 (f64.const 1) (i32.const 1)))
-    (func (param i32 f64))
-  )
-  "type mismatch"
-)
-(assert_invalid
-  (module
-    (func $type-second-num-vs-num (call 1 (i32.const 1) (f64.const 1)))
-    (func (param f64 i32))
-  )
-  "type mismatch"
-)
+;; (assert_invalid
+;;   (module
+;;     (func $type-first-num-vs-num (call 1 (f64.const 1) (i32.const 1)))
+;;     (func (param i32 f64))
+;;   )
+;;   "type mismatch"
+;; )
+;; (assert_invalid
+;;   (module
+;;     (func $type-second-num-vs-num (call 1 (i32.const 1) (f64.const 1)))
+;;     (func (param f64 i32))
+;;   )
+;;   "type mismatch"
+;; )
 
 
 ;; Unbound function
