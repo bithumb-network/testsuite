@@ -12,12 +12,6 @@
     (i32.store (i32.const 12) (i32.const 0))
   )
 
-  (func (export "test_store_to_load") (result i32)
-    (i32.store (i32.const 8) (i32.const 0))
-    (f32.store (i32.const 5) (f32.const -0.0))
-    (i32.load (i32.const 8))
-  )
-
   (func (export "test_redundant_load") (result i32)
     (local $t i32)
     (local $s i32)
@@ -25,14 +19,6 @@
     (i32.store (i32.const 5) (i32.const 0x80000000))
     (local.set $s (i32.load (i32.const 8)))
     (i32.add (local.get $t) (local.get $s))
-  )
-
-  (func (export "test_dead_store") (result f32)
-    (local $t f32)
-    (i32.store (i32.const 8) (i32.const 0x23232323))
-    (local.set $t (f32.load (i32.const 11)))
-    (i32.store (i32.const 8) (i32.const 0))
-    (local.get $t)
   )
 
   ;; A function named "malloc" which implementations nonetheless shouldn't
@@ -56,10 +42,8 @@
   )
 )
 
-(assert_return (invoke "test_store_to_load") (i32.const 0x00000080))
 (invoke "zero_everything")
 (assert_return (invoke "test_redundant_load") (i32.const 0x00000080))
 (invoke "zero_everything")
-(assert_return (invoke "test_dead_store") (f32.const 0x1.18p-144))
 (invoke "zero_everything")
 (assert_return (invoke "malloc_aliasing") (i32.const 43))
