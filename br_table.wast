@@ -10,24 +10,12 @@
   (func (export "type-i64")
     (block (drop (i64.ctz (br_table 0 0 (i32.const 0)))))
   )
-  (func (export "type-f32")
-    (block (drop (f32.neg (br_table 0 0 (i32.const 0)))))
-  )
-  (func (export "type-f64")
-    (block (drop (f64.neg (br_table 0 0 (i32.const 0)))))
-  )
 
   (func (export "type-i32-value") (result i32)
     (block (result i32) (i32.ctz (br_table 0 0 (i32.const 1) (i32.const 0))))
   )
   (func (export "type-i64-value") (result i64)
     (block (result i64) (i64.ctz (br_table 0 0 (i64.const 2) (i32.const 0))))
-  )
-  (func (export "type-f32-value") (result f32)
-    (block (result f32) (f32.neg (br_table 0 0 (f32.const 3) (i32.const 0))))
-  )
-  (func (export "type-f64-value") (result f64)
-    (block (result f64) (f64.neg (br_table 0 0 (f64.const 4) (i32.const 0))))
   )
 
   (func (export "empty") (param i32) (result i32)
@@ -1019,14 +1007,6 @@
       )
     )
   )
-
-  (func (export "as-local.set-value") (result i32)
-    (local f32)
-    (block (result i32)
-      (local.set 0 (br_table 0 (i32.const 17) (i32.const 1)))
-      (i32.const -1)
-    )
-  )
   (func (export "as-local.tee-value") (result i32)
     (local i32)
     (block (result i32)
@@ -1043,19 +1023,19 @@
   )
 
   (memory 1)
-  (func (export "as-load-address") (result f32)
-    (block (result f32) (f32.load (br_table 0 (f32.const 1.7) (i32.const 1))))
-  )
+  ;; (func (export "as-load-address") (result f32)
+  ;;   (block (result f32) (f32.load (br_table 0 (f32.const 1.7) (i32.const 1))))
+  ;; )
   (func (export "as-loadN-address") (result i64)
     (block (result i64) (i64.load8_s (br_table 0 (i64.const 30) (i32.const 1))))
   )
 
-  (func (export "as-store-address") (result i32)
-    (block (result i32)
-      (f64.store (br_table 0 (i32.const 30) (i32.const 1)) (f64.const 7))
-      (i32.const -1)
-    )
-  )
+  ;; (func (export "as-store-address") (result i32)
+  ;;   (block (result i32)
+  ;;     (f64.store (br_table 0 (i32.const 30) (i32.const 1)) (f64.const 7))
+  ;;     (i32.const -1)
+  ;;   )
+  ;; )
   (func (export "as-store-value") (result i32)
     (block (result i32)
       (i64.store (i32.const 2) (br_table 0 (i32.const 31) (i32.const 1)))
@@ -1076,9 +1056,9 @@
     )
   )
 
-  (func (export "as-unary-operand") (result f32)
-    (block (result f32) (f32.neg (br_table 0 (f32.const 3.4) (i32.const 0))))
-  )
+  ;; (func (export "as-unary-operand") (result f32)
+  ;;   (block (result f32) (f32.neg (br_table 0 (f32.const 3.4) (i32.const 0))))
+  ;; )
 
   (func (export "as-binary-left") (result i32)
     (block (result i32)
@@ -1095,16 +1075,16 @@
     (block (result i32) (i32.eqz (br_table 0 (i32.const 44) (i32.const 0))))
   )
 
-  (func (export "as-compare-left") (result i32)
-    (block (result i32)
-      (f64.le (br_table 0 0 (i32.const 43) (i32.const 0)) (f64.const 10))
-    )
-  )
-  (func (export "as-compare-right") (result i32)
-    (block (result i32)
-      (f32.ne (f32.const 10) (br_table 0 (i32.const 42) (i32.const 0)))
-    )
-  )
+  ;; (func (export "as-compare-left") (result i32)
+  ;;   (block (result i32)
+  ;;     (f64.le (br_table 0 0 (i32.const 43) (i32.const 0)) (f64.const 10))
+  ;;   )
+  ;; )
+  ;; (func (export "as-compare-right") (result i32)
+  ;;   (block (result i32)
+  ;;     (f32.ne (f32.const 10) (br_table 0 (i32.const 42) (i32.const 0)))
+  ;;   )
+  ;; )
 
   (func (export "as-convert-operand") (result i32)
     (block (result i32)
@@ -1246,13 +1226,11 @@
 
 (assert_return (invoke "type-i32"))
 (assert_return (invoke "type-i64"))
-(assert_return (invoke "type-f32"))
-(assert_return (invoke "type-f64"))
+;; (assert_return (invoke "type-f32"))
 
 (assert_return (invoke "type-i32-value") (i32.const 1))
 (assert_return (invoke "type-i64-value") (i64.const 2))
-(assert_return (invoke "type-f32-value") (f32.const 3))
-(assert_return (invoke "type-f64-value") (f64.const 4))
+;; (assert_return (invoke "type-f32-value") (f32.const 3))
 
 (assert_return (invoke "empty" (i32.const 0)) (i32.const 22))
 (assert_return (invoke "empty" (i32.const 1)) (i32.const 22))
@@ -1303,6 +1281,8 @@
 (assert_return (invoke "multiple-value" (i32.const 10)) (i32.const 214))
 (assert_return (invoke "multiple-value" (i32.const -1)) (i32.const 214))
 (assert_return (invoke "multiple-value" (i32.const 0xffffffff)) (i32.const 214))
+
+;; ok
 
 (assert_return (invoke "large" (i32.const 0)) (i32.const 0))
 (assert_return (invoke "large" (i32.const 1)) (i32.const 1))
@@ -1355,27 +1335,26 @@
 (assert_return (invoke "as-call_indirect-last") (i32.const 22))
 (assert_return (invoke "as-call_indirect-func") (i32.const 23))
 
-(assert_return (invoke "as-local.set-value") (i32.const 17))
 (assert_return (invoke "as-local.tee-value") (i32.const 1))
 (assert_return (invoke "as-global.set-value") (i32.const 1))
 
-(assert_return (invoke "as-load-address") (f32.const 1.7))
+;; (assert_return (invoke "as-load-address") (f32.const 1.7))
 (assert_return (invoke "as-loadN-address") (i64.const 30))
 
-(assert_return (invoke "as-store-address") (i32.const 30))
+;; (assert_return (invoke "as-store-address") (i32.const 30))
 (assert_return (invoke "as-store-value") (i32.const 31))
 (assert_return (invoke "as-storeN-address") (i32.const 32))
 (assert_return (invoke "as-storeN-value") (i32.const 33))
 
-(assert_return (invoke "as-unary-operand") (f32.const 3.4))
+;; (assert_return (invoke "as-unary-operand") (f32.const 3.4))
 
 (assert_return (invoke "as-binary-left") (i32.const 3))
 (assert_return (invoke "as-binary-right") (i64.const 45))
 
 (assert_return (invoke "as-test-operand") (i32.const 44))
 
-(assert_return (invoke "as-compare-left") (i32.const 43))
-(assert_return (invoke "as-compare-right") (i32.const 42))
+;; ;;(assert_return (invoke "as-compare-left") (i32.const 43))
+;; ;; (assert_return (invoke "as-compare-right") (i32.const 42))
 
 (assert_return (invoke "as-convert-operand") (i32.const 41))
 
@@ -1394,6 +1373,8 @@
 (assert_return (invoke "nested-br-value" (i32.const 11)) (i32.const 17))
 (assert_return (invoke "nested-br-value" (i32.const -4)) (i32.const 17))
 (assert_return (invoke "nested-br-value" (i32.const 10213210)) (i32.const 17))
+
+;; ok
 
 (assert_return (invoke "nested-br_if-value" (i32.const 0)) (i32.const 17))
 (assert_return (invoke "nested-br_if-value" (i32.const 1)) (i32.const 9))
@@ -1442,17 +1423,6 @@
   (module (func $type-arg-num-vs-num (result i32)
     (block (result i32)
       (br_table 0 0 0 (i64.const 1) (i32.const 1)) (i32.const 1)
-    )
-  ))
-  "type mismatch"
-)
-(assert_invalid
-  (module (func $type-arg-num-vs-arg-num
-    (block
-      (block (result f32)
-        (br_table 0 1 (f32.const 0) (i32.const 0))
-      )
-      (drop)
     )
   ))
   "type mismatch"
