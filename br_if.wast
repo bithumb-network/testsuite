@@ -9,12 +9,12 @@
   (func (export "type-i64")
     (block (drop (i64.ctz (br_if 0 (i64.const 0) (i32.const 1)))))
   )
-  (func (export "type-f32")
-    (block (drop (f32.neg (br_if 0 (f32.const 0) (i32.const 1)))))
-  )
-  (func (export "type-f64")
-    (block (drop (f64.neg (br_if 0 (f64.const 0) (i32.const 1)))))
-  )
+  ;; (func (export "type-f32")
+  ;;   (block (drop (f32.neg (br_if 0 (f32.const 0) (i32.const 1)))))
+  ;; )
+  ;; (func (export "type-f64")
+  ;;   (block (drop (f64.neg (br_if 0 (f64.const 0) (i32.const 1)))))
+  ;; )
 
   (func (export "type-i32-value") (result i32)
     (block (result i32) (i32.ctz (br_if 0 (i32.const 1) (i32.const 1))))
@@ -22,12 +22,12 @@
   (func (export "type-i64-value") (result i64)
     (block (result i64) (i64.ctz (br_if 0 (i64.const 2) (i32.const 1))))
   )
-  (func (export "type-f32-value") (result f32)
-    (block (result f32) (f32.neg (br_if 0 (f32.const 3) (i32.const 1))))
-  )
-  (func (export "type-f64-value") (result f64)
-    (block (result f64) (f64.neg (br_if 0 (f64.const 4) (i32.const 1))))
-  )
+  ;; (func (export "type-f32-value") (result f32)
+  ;;   (block (result f32) (f32.neg (br_if 0 (f32.const 3) (i32.const 1))))
+  ;; )
+  ;; (func (export "type-f64-value") (result f64)
+  ;;   (block (result f64) (f64.neg (br_if 0 (f64.const 4) (i32.const 1))))
+  ;; )
 
   (func (export "as-block-first") (param i32) (result i32)
     (block (br_if 0 (local.get 0)) (return (i32.const 2))) (i32.const 3)
@@ -249,9 +249,9 @@
     )
   )
 
-  (func (export "as-unary-operand") (result f64)
-    (block (result f64) (f64.neg (br_if 0 (f64.const 1.0) (i32.const 1))))
-  )
+  ;; (func (export "as-unary-operand") (result f64)
+  ;;   (block (result f64) (f64.neg (br_if 0 (f64.const 1.0) (i32.const 1))))
+  ;; )
   (func (export "as-binary-left") (result i32)
     (block (result i32) (i32.add (br_if 0 (i32.const 1) (i32.const 1)) (i32.const 10)))
   )
@@ -371,13 +371,13 @@
 
 (assert_return (invoke "type-i32"))
 (assert_return (invoke "type-i64"))
-(assert_return (invoke "type-f32"))
-(assert_return (invoke "type-f64"))
+;; (assert_return (invoke "type-f32"))
+;; (assert_return (invoke "type-f64"))
 
 (assert_return (invoke "type-i32-value") (i32.const 1))
 (assert_return (invoke "type-i64-value") (i64.const 2))
-(assert_return (invoke "type-f32-value") (f32.const 3))
-(assert_return (invoke "type-f64-value") (f64.const 4))
+;; (assert_return (invoke "type-f32-value") (f32.const 3))
+;; (assert_return (invoke "type-f64-value") (f64.const 4))
 
 (assert_return (invoke "as-block-first" (i32.const 0)) (i32.const 2))
 (assert_return (invoke "as-block-first" (i32.const 1)) (i32.const 3))
@@ -456,7 +456,7 @@
 (assert_return (invoke "as-storeN-address") (i32.const 32))
 (assert_return (invoke "as-storeN-value") (i32.const 33))
 
-(assert_return (invoke "as-unary-operand") (f64.const 1.0))
+;; (assert_return (invoke "as-unary-operand") (f64.const 1.0))
 (assert_return (invoke "as-binary-left") (i32.const 1))
 (assert_return (invoke "as-binary-right") (i32.const 1))
 (assert_return (invoke "as-test-operand") (i32.const 0))
@@ -485,14 +485,14 @@
   (module (func $type-false-i64 (block (i64.ctz (br_if 0 (i32.const 0))))))
   "type mismatch"
 )
-(assert_invalid
-  (module (func $type-false-f32 (block (f32.neg (br_if 0 (i32.const 0))))))
-  "type mismatch"
-)
-(assert_invalid
-  (module (func $type-false-f64 (block (f64.neg (br_if 0 (i32.const 0))))))
-  "type mismatch"
-)
+;; (assert_invalid
+;;   (module (func $type-false-f32 (block (f32.neg (br_if 0 (i32.const 0))))))
+;;   "type mismatch"
+;; )
+;; (assert_invalid
+;;   (module (func $type-false-f64 (block (f64.neg (br_if 0 (i32.const 0))))))
+;;   "type mismatch"
+;; )
 
 (assert_invalid
   (module (func $type-true-i32 (block (i32.ctz (br_if 0 (i32.const 1))))))
@@ -502,14 +502,14 @@
   (module (func $type-true-i64 (block (i64.ctz (br_if 0 (i64.const 1))))))
   "type mismatch"
 )
-(assert_invalid
-  (module (func $type-true-f32 (block (f32.neg (br_if 0 (f32.const 1))))))
-  "type mismatch"
-)
-(assert_invalid
-  (module (func $type-true-f64 (block (f64.neg (br_if 0 (i64.const 1))))))
-  "type mismatch"
-)
+;; (assert_invalid
+;;   (module (func $type-true-f32 (block (f32.neg (br_if 0 (f32.const 1))))))
+;;   "type mismatch"
+;; )
+;; (assert_invalid
+;;   (module (func $type-true-f64 (block (f64.neg (br_if 0 (i64.const 1))))))
+;;   "type mismatch"
+;; )
 
 (assert_invalid
   (module (func $type-false-arg-void-vs-num (result i32)
